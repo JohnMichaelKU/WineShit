@@ -1,77 +1,59 @@
 import React, { Component } from "react";
-import API from "../utils/API";
-import Card from "../components/Card";
-import Alert from "../components/Alert";
 
-class Food extends Component {
-  state = {
-    image: "",
-    match: false,
-    matchCount: 0
-  };
 
-  // When the component mounts, load the next dog to be displayed
-  componentDidMount() {
-    this.loadNextDog();
+class UserForm extends Component {
+  constructor() {
+    super();
+    this.state = {
+      choice: 'Stew',
+    };
+  }
+  onChange = (e) => {
+    // Because we named the inputs to match their corresponding values in state, it's
+    // super easy to update the state
+    const state = this.state
+    state[e.target.name] = e.target.value;
+    this.setState(state);
   }
 
-  handleBtnClick = event => {
-    // Get the data-value of the clicked button
-    const btnType = event.target.attributes.getNamedItem("data-value").value;
-    // Clone this.state to the newState object
-    // We'll modify this object and use it to set our component's state
-    const newState = { ...this.state };
+  onSubmit = (e) => {
+    e.preventDefault();
+    console.log(this.state)
+    // get our form data out of state
+    const { choice } = this.state;
 
-    if (btnType === "pick") {
-      // Set newState.match to either true or false depending on whether or not the dog likes us (1/5 chance)
-      newState.match = 1 === Math.floor(Math.random() * 5) + 1;
-
-      // Set newState.matchCount equal to its current value or its current value + 1 depending on whether the dog likes us
-      newState.matchCount = newState.match
-        ? newState.matchCount + 1
-        : newState.matchCount;
-    } else {
-      // If we thumbs down'ed the dog, we haven't matched with it
-      newState.match = false;
-    }
-    // Replace our component's state with newState, load the next dog image
-    this.setState(newState);
-    this.loadNextDog();
-  };
-
-  loadNextDog = () => {
-    API.getRandomDog()
-      .then(res =>
-        this.setState({
-          image: res.data.message
-        })
-      )
-      .catch(err => console.log(err));
-  };
+  }
 
   render() {
+    const { choice } = this.state;
     return (
-      <div>
-        <h1 className="text-center">Meal for wine pairing</h1>
-        <h3 className="text-center">
-          Match 
-        </h3>
-  <div className="form-group">
-    <label for="Dish">Type of Food</label>
-    <select className="form-control">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select>
-  </div>
-        <Alert style={{ opacity: this.state.match ? 1 : 0 }} type="success">
-          Yay! That Pup Liked You Too!!!
-        </Alert>
-      </div>
+      <form onSubmit={this.onSubmit}>
+        <label>Select list:</label>
+        <select name="choice" className="form-control" id="sel1" onChange={this.onChange}>
+          <option>Stew</option>
+          <option value="Pasta Red Sauce">Pasta (Red Sauce)</option>
+          <option value="Pasta Cream Sauce">Pasta (White Sauce)</option>
+          <option>Cured Meats</option>
+          <option>Poultry</option>
+          <option>Pork</option>
+          <option>Cheeses</option>
+          <option>Fruits</option>
+          <option>Chocolate Cake</option>
+          <option>Burgers</option>
+          <option>BBQ</option>
+          <option>Ribs</option>
+          <option value="Veggies">Vegetables</option>
+          <option>Pizza</option>
+          <option value="Chilli">Chili</option>
+          <option>Fries</option>
+          <option>Sushi</option>
+          <option>Salad</option>
+        </select>
+        <button type="submit">Submit</button>
+      </form>
     );
   }
 }
 
-export default Food;
+
+export default UserForm;

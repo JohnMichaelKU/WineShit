@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Food from "./pages/Food";
+import UserForm from "./pages/Food";
 import Login from "./pages/Login";
 import Wine from "./pages/Wine";
 import Navbar from "./components/Navbar";
@@ -14,7 +14,7 @@ const App = () =>
       <Wrapper>
         <Route exact path="/" component={Login} />
         <Route exact path="/Login" component={Login} />
-        <Route exact path="/Food" component={Food} />
+        <Route exact path="/Food" component={UserForm} />
         <Route exact path="/Wine" component={Wine} />
       </Wrapper>
       <Footer />
